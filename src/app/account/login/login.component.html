@@ -6,8 +6,8 @@
                     <h3 class="mb-3 font-weight-normal">Авторизация</h3>
                 </div>
                 <div class="form-floating mb-3">
-                    <input formControlName="username" type="email" placeholder="Имя пользователя (ваша эл. почта)" class="form-control"
-                    [class.is-valid]="submitted && loginForm.get('username')?.errors">
+                    <input formControlName="username" type="email" placeholder="Имя пользователя (ваша эл. почта)"
+                        class="form-control" [class.is-valid]="submitted && loginForm.get('username')?.errors">
                     <label for="username">Имя пользователя (ваша эл. почта)</label>
                     <span class="text-danger" *ngIf="submitted && loginForm.get('username')?.hasError('required')">
                         Имя пользователя обязателен!
@@ -15,7 +15,7 @@
                 </div>
                 <div class="form-floating mb-3">
                     <input formControlName="password" type="password" placeholder="Пароль" class="form-control"
-                    [class.is-valid]="submitted && loginForm.get('password')?.errors">
+                        [class.is-valid]="submitted && loginForm.get('password')?.errors">
                     <label for="password">Пароль</label>
                     <span class="text-danger" *ngIf="submitted && loginForm.get('password')?.hasError('required')">
                         Пароль обязателен!
@@ -24,6 +24,10 @@
 
                 <div class="form-floating" *ngIf="errorMessages.length > 0">
                     <app-validation-messages [errorMessages]="errorMessages"></app-validation-messages>
+                    <a class="btn btn-link" (click)="resendEmailConfirmLink()"
+                        *ngIf="errorMessages[0].includes('Пожалуйста подтвердите свою эл. почту.')">
+                        Нажмите сюда для повторного подтверждения учетной записи.
+                    </a>
                 </div>
 
                 <div class="d-grid mt-4 px-1">
@@ -31,7 +35,7 @@
                 </div>
             </form>
             <div class="mt-4 text-center">
-                <a class="btn btn-link">
+                <a class="btn btn-link" routerLink="/account/send-email/forgot-uername-or-password">
                     <h6>Забыли имя пользователя или пароль?</h6>
                 </a>
             </div>

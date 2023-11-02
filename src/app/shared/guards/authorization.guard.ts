@@ -1,9 +1,9 @@
 import { CanActivateFn, ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { SharedService } from '../shared.service';
 import { AccountService } from 'src/app/account/account.service';
-import { Observable, map } from 'rxjs';
+import { map } from 'rxjs';
 import { inject } from '@angular/core';
-import { User } from '../models/user';
+import { User } from '../models/account/user';
 
 export const authorizationGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot, 

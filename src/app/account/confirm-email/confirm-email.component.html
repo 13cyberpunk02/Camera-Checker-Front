@@ -1,0 +1,10 @@
+<div class="container text-center" *ngIf="success">
+    <a class="btn btn-primary" routerLink="/account/login">
+        Авторизация
+    </a>
+</div>
+<div class="container text-center" *ngIf="!success">
+    <a class="btn btn-primary" (click)="resendEmailConfirmation()">
+        Отправить повторно ссылку на подтверждение почты.
+    </a>
+</div>

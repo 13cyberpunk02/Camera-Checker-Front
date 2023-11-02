@@ -1,11 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Register } from '../shared/models/register';
+import { Register } from '../shared/models/account/register';
 import { environment } from 'src/environments/environment.development';
-import { Login } from '../shared/models/login';
-import { User } from '../shared/models/user';
+import { Login } from '../shared/models/account/login';
+import { User } from '../shared/models/account/user';
 import { ReplaySubject, map, of, pipe } from 'rxjs';
 import { Router } from '@angular/router';
+import { ConfirmEmail } from '../shared/models/account/confirmEmail';
+import { ResetPassword } from '../shared/models/account/resetPassword';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +19,8 @@ export class AccountService {
   constructor(private http: HttpClient, private router: Router) { }
 
 
-  refreshUser(jwt: string | null){
-    if(jwt === null){
+  refreshUser(jwt: string | null) {
+    if (jwt === null) {
       this.userSource.next(null);
       return of(undefined);
     }
@@ -26,9 +28,9 @@ export class AccountService {
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', 'Bearer ' + jwt);
 
-    return this.http.get<User>(`${environment.appUrl}/account/refresh-user-token`, {headers}).pipe(
+    return this.http.get<User>(`${environment.appUrl}/account/refresh-user-token`, { headers }).pipe(
       map((user: User) => {
-        if(user){
+        if (user) {
           this.setUser(user);
         }
       })
@@ -49,11 +51,26 @@ export class AccountService {
     );
   }
 
-  logout(){
+  logout() {
     localStorage.removeItem(environment.userKey);
     this.userSource.next(null);
     this.router.navigateByUrl('/');
+  }
 
+  confirmEmail(model: ConfirmEmail) {
+    return this.http.put(`${environment.appUrl}/account/confirm-email`, model);
+  }
+
+  resendEmailConfirmLink(email: string) {
+    return this.http.post(`${environment.appUrl}/account/resend-email-confirmation-link/${email}`, {});
+  }
+
+  forgotUsernameOrPassword(email: string){
+    return this.http.post(`${environment.appUrl}/account/forgot-username-or-password/${email}`, {});
+  }
+
+  resetPassword(model: ResetPassword){
+    return this.http.put(`${environment.appUrl}/account/reset-password`, model);
   }
 
   getJWT() {
