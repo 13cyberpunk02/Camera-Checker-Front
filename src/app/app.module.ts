@@ -11,6 +11,7 @@ import { SharedModule } from './shared/shared.module';
 import { CameraComponent } from './camera/camera.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './shared/interceptors/jwt-interceptor.interceptor';
+import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 
 @NgModule({
   declarations: [
